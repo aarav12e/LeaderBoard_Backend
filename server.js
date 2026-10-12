@@ -3,8 +3,9 @@ import dotenv from "dotenv";
 import cors from "cors";
 import connectDB from "./config/db.js";
 import studentRoutes from "./routes/studentRoutes.js";
+import seniorStudentRoutes from "./routes/seniorStudentRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
 import job from "./config/cron.js";
-
 
 dotenv.config();
 connectDB();
@@ -17,7 +18,12 @@ app.get("/api/health", (req, res) => {
     res.status(200).json({ status: "OK" });
 });
 
+// Authentication routes
+app.use("/api/auth", authRoutes);
+
+// Leaderboard routes
 app.use("/api/students", studentRoutes);
+app.use("/api/senior-students", seniorStudentRoutes);
 
 job.start();
 
